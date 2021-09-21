@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+
+
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: black; opacity: 70%; padding: 30px;">
+        <a class="navbar-brand" href="#" style="font-family: sans-serif; color: white; font-size: 25px;">Seylani Mass IT
+            Program</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon" style="background-color: white;" id="edited-toggle"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent"
+            style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" style="color: white;">About <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: white;">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="signup.html" style="color: white;">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: white;">Login</a>
+                </li>
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+                        Register
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="my-dropdown">
+                        <a class="dropdown-item" href="login.html">Sign Up</a>
+                        <a class="dropdown-item" href="login.html">Log In</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li> -->
+                <!-- <li class="nav-item">
+                  <a class="nav-link disabled" href="#">Disabled</a>
+                </li> -->
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+
+    <h1>This is Admin Panel</h1>
+    <div style="display: flex; justify-content: center; padding: 5em;">
+
+        <div>
+            <div id="std">
+
+            </div>
+            <div>
+                <button onclick="ShowStudent()" id="btn-std">Student</button>
+            </div>
+        </div>
+
+        <div>
+            <div id="teach">
+
+            </div>
+            <div>
+                <button onclick="ShowTeacher()" id="btn-teach">Teacher</button>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBjVGD7QKGtgd-U9beQNUmkHbiYSbZC7uc",
+            authDomain: "saylani-247c8.firebaseapp.com",
+            projectId: "saylani-247c8",
+            storageBucket: "saylani-247c8.appspot.com",
+            messagingSenderId: "908153587048",
+            appId: "1:908153587048:web:de43b97102d573312ec2dd",
+            measurementId: "G-TZV13L4JNG"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        console.log(firebase)
+    </script>
+
+    <script>
+
+        const ShowStudent = () => {
+
+            var ref = firebase.database().ref("Student");
+            ref.on("value", function (snapshot) {
+                var data = snapshot.val()
+                var value = Object.values(data)
+                console.log(value)
+                var std = document.getElementById("std")
+                value.map((v, i) => {
+                    console.log(v.email)
+                    var list_item = document.createElement('h1')
+                    var list_text = document.createTextNode(v.email)
+                    list_item.appendChild(list_text)
+
+                    var list_item3 = document.createElement('h1')
+                    var list_text3 = document.createTextNode(v.uid)
+                    list_item3.appendChild(list_text3)
+
+                    var list_item2 = document.createElement('h1')
+                    var list_text2 = document.createTextNode(v.Name)
+                    list_item2.appendChild(list_text2)
+
+                    var stdNumStyle = document.createElement('h1')
+                    var stdNumTxt = document.createTextNode("Student" + (i + 1))
+                    stdNumStyle.appendChild(stdNumTxt)
+
+                    std.appendChild(stdNumStyle)
+                    std.appendChild(list_item2)
+                    std.appendChild(list_item)
+                    std.appendChild(list_item3)
+
+                })
+            });
+
+            var btn = document.getElementById("btn-std");
+            btn.remove();
+
+        }
+
+
+        const ShowTeacher = () => {
+
+            var ref = firebase.database().ref("Teacher");
+            ref.on("value", function (snapshot) {
+                var data = snapshot.val()
+                var value = Object.values(data)
+                console.log(value)
+                var teach = document.getElementById("teach")
+                value.map((v, i) => {
+                    console.log(v.email)
+                    var list_item = document.createElement('h1')
+                    var list_text = document.createTextNode(v.email)
+                    list_item.appendChild(list_text)
+
+                    var list_item3 = document.createElement('h1')
+                    var list_text3 = document.createTextNode(v.uid)
+                    list_item3.appendChild(list_text3)
+
+                    var list_item2 = document.createElement('h1')
+                    var list_text2 = document.createTextNode(v.Name)
+                    list_item2.appendChild(list_text2)
+
+                    var teachNumStyle = document.createElement('h1')
+                    var teachNumTxt = document.createTextNode("Teacher" + (i + 1))
+                    teachNumStyle.appendChild(teachNumTxt)
+
+                    std.appendChild(teachNumStyle)
+                    std.appendChild(list_item2)
+                    std.appendChild(list_item)
+                    std.appendChild(list_item3)
+
+                })
+            });
+
+            var btn = document.getElementById("btn-teach");
+            btn.remove();
+
+        }
+
+    </script>
+</body>
+
+</html>
